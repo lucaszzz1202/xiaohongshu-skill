@@ -25,46 +25,41 @@
 
 ## 🚀 推荐使用方式（OpenClaw）
 
-### 🎯 最佳实践：通过OpenClaw使用
+### 🎯 最佳实践：与OpenClaw聊天使用
 
 **第一步：安装技能**
-```bash
-# 在OpenClaw中安装小红书技能包
-openclaw install xiaohongshu-skills
+直接和OpenClaw聊天：
+```
+"帮我安装小红书自动化技能包"
 ```
 
 **第二步：配置环境**
-- 🔑 配置小红书Cookie认证文件
-- 📝 设置soul.md角色人设
-- 🛠️ OpenClaw会自动处理依赖安装
+- 🔑 OpenClaw会引导你配置小红书Cookie认证
+- 📝 基于你的soul.md角色人设自动适配
+- 🛠️ 自动处理所有依赖安装
 
 **第三步：开始使用**
 
 **🚀 直接发帖：**
-```bash
-# 通过OpenClaw直接发布小红书笔记
-openclaw xiaohongshu-publish "标题: AI工具心得" "内容: 详细内容..."
+```
+"帮我发布一篇小红书笔记：
+标题：AI工具使用心得
+内容：今天分享几个实用的AI工具...
+标签：AI、工具、效率"
 ```
 
 **⏰ 定时发帖（推荐）：**
-```bash
-# 设置cron job自动发帖
-crontab -e
-
-# 每天上午9点自动发布
-0 9 * * * openclaw xiaohongshu-publish --auto-generate
-
-# 每4小时检查并回复评论
-0 */4 * * * openclaw xiaohongshu-reply --check-comments
+```
+"帮我设置小红书定时发布：
+- 每天上午9点自动发布内容
+- 每4小时检查并回复评论
+- 如果Cookie过期请提醒我"
 ```
 
 **💬 自动回复：**
-```bash
-# 手动触发评论回复
-openclaw xiaohongshu-reply
-
-# 实时监控回复模式
-openclaw xiaohongshu-reply --monitor
+```
+"帮我处理小红书评论回复"
+"实时监控我的小红书评论，有新评论自动回复"
 ```
 
 **优势：**
@@ -149,34 +144,35 @@ xiaohongshu-skills/
 ### 🚀 自动化发布
 
 **直接发布：**
-```bash
-openclaw xiaohongshu-publish "AI工具使用心得" "详细内容..." --tags "AI,工具,效率"
+```
+"帮我发布小红书笔记：
+标题：AI工具使用心得
+内容：详细介绍几个好用的AI工具...
+标签：AI、工具、效率"
 ```
 
 **定时发布（推荐）：**
-```bash
-# 设置每日定时发布
-0 9 * * * openclaw xiaohongshu-publish --auto-generate --topic "科技分享"
-
-# 设置每周总结发布
-0 10 * * 0 openclaw xiaohongshu-publish --weekly-summary
+```
+"帮我设置小红书自动发布计划：
+- 每天上午9点发布科技分享内容
+- 每周日上午10点发布周总结
+- 请根据我的soul.md人设来生成内容"
 ```
 
 ### 💬 自动评论管理
 
 **实时监控：**
-```bash
-# 启动评论监控（后台运行）
-openclaw xiaohongshu-reply --monitor --daemon
-
-# 检查并回复所有未读评论
-openclaw xiaohongshu-reply --check-all
+```
+"帮我启动小红书评论监控，后台运行"
+"检查并回复我所有未读的小红书评论"
 ```
 
 **定时回复：**
-```bash
-# 每2小时检查评论
-0 */2 * * * openclaw xiaohongshu-reply --auto
+```
+"帮我设置小红书评论自动回复：
+- 每2小时检查一次新评论
+- 根据我的人设自动生成回复
+- 回复前请给我预览确认"
 ```
 
 ---
@@ -263,7 +259,7 @@ openclaw xiaohongshu-reply --check-all
 **⚡ 立即通过OpenClaw开始您的小红书自动化之旅！**
 
 **🔥 推荐工作流：**
-1. 安装OpenClaw和xiaohongshu-skills
-2. 配置Cookie和soul.md人设
-3. 设置cron定时任务（发帖+回复）
+1. 和OpenClaw聊天："帮我安装小红书自动化技能包"
+2. 按提示配置Cookie和完善soul.md人设
+3. 说："帮我设置小红书自动发帖和回复计划"
 4. 享受全自动的小红书内容管理！
