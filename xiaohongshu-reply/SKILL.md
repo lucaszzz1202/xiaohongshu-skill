@@ -60,14 +60,16 @@ import json
 from time import sleep
 from playwright.sync_api import sync_playwright
 
-with open('/Users/jli/.openclaw/secrets/xiaohongshu.json', 'r') as f:
+cookie_path = os.path.expanduser('~/.openclaw/secrets/xiaohongshu.json')
+with open(cookie_path, 'r') as f:
     raw = json.load(f)
 cookies = [{'name': k, 'value': str(v), 'domain': '.xiaohongshu.com', 'path': '/'} for k, v in raw.items()]
 
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=True)
     context = browser.new_context()
-    context.add_init_script(path='/Users/jli/openclaw/stealth.min.js')
+    stealth_path = os.path.expanduser('~/stealth.min.js')  # 用户需自行配置路径
+    context.add_init_script(path=stealth_path)
     context.add_cookies(cookies)
     page = context.new_page()
     page.set_default_timeout(30000)
@@ -146,5 +148,5 @@ for keyword, reply_text in replies_to_send:
 
 ## 相关文件
 - Cookie配置：`~/.openclaw/secrets/xiaohongshu.json`
-- stealth.min.js：`/Users/jli/openclaw/stealth.min.js`
-- 发布skill：`/Users/jli/openclaw/skills/xiaohongshu-publish/SKILL.md`
+- stealth.min.js：`~/stealth.min.js` (用户自行配置路径)
+- 发布skill：`../xiaohongshu-publish/SKILL.md`

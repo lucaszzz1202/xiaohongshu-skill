@@ -46,13 +46,13 @@ def main():
         body_text = page.text_content('body')
         
         # 保存到文件
-        with open('/Users/jli/openclaw/latest_comments.txt', 'w', encoding='utf-8') as f:
+        with open('./latest_comments.txt', 'w', encoding='utf-8') as f:
             f.write(body_text)
         
         print("✅ 已保存最新评论到 latest_comments.txt")
         
         # 截图
-        page.screenshot(path='/Users/jli/openclaw/debug_latest.png', full_page=True)
+        page.screenshot(path='./debug_latest.png', full_page=True)
         print("📸 已截图")
         
         browser.close()

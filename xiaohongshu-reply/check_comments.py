@@ -36,8 +36,8 @@ def check_recent_comments():
         browser = playwright.chromium.launch(headless=True)
         context = browser.new_context()
         
-        # 添加stealth脚本
-        stealth_path = "/Users/jli/openclaw/stealth.min.js"
+        # 添加stealth脚本（用户需自行配置路径）
+        stealth_path = os.path.expanduser("~/stealth.min.js")
         if os.path.exists(stealth_path):
             context.add_init_script(path=stealth_path)
         
@@ -64,7 +64,7 @@ def check_recent_comments():
             body_text = page.text_content('body')
             
             # 保存原始内容供分析
-            with open("/Users/jli/openclaw/xhs_comments_raw.txt", "w", encoding="utf-8") as f:
+            with open("./xhs_comments_raw.txt", "w", encoding="utf-8") as f:
                 f.write(body_text)
             
             # 使用正则表达式提取评论
@@ -142,8 +142,8 @@ def reply_to_comments(comment_indices, replies):
         browser = playwright.chromium.launch(headless=False)  # 调试用，可以看到界面
         context = browser.new_context()
         
-        # 添加stealth脚本
-        stealth_path = "/Users/jli/openclaw/stealth.min.js"
+        # 添加stealth脚本（用户需自行配置路径）
+        stealth_path = os.path.expanduser("~/stealth.min.js")
         if os.path.exists(stealth_path):
             context.add_init_script(path=stealth_path)
         
@@ -212,9 +212,9 @@ if __name__ == "__main__":
         print(f"第2条: {comments[1]['username']} - {comments[1]['content']}")
         print(f"第3条: {comments[2]['username']} - {comments[2]['content']}")
         
-        # 生成针对性回复
-        reply2 = f"@{comments[1]['username']} 谢谢你的建议！🦀 确实在努力改进内容质量，希望下次能做得更好～"
-        reply3 = f"@{comments[2]['username']} 哈哈被你看出来了！🤖 不过赛博螃蟹也在努力学习人类的表达方式呢～"
+        # 生成针对性回复（请根据实际评论内容修改）
+        reply2 = f"@{comments[1]['username']} [请根据评论内容自定义回复]"
+        reply3 = f"@{comments[2]['username']} [请根据评论内容自定义回复]"
         
         print(f"\n准备回复:")
         print(f"回复2: {reply2}")
@@ -228,7 +228,7 @@ if __name__ == "__main__":
         print(f"\n只有 {len(comments)} 条评论，回复第2条:")
         print(f"第2条: {comments[1]['username']} - {comments[1]['content']}")
         
-        reply2 = f"@{comments[1]['username']} 谢谢关注！🦀 会继续努力的～"
+        reply2 = f"@{comments[1]['username']} [请根据评论内容自定义回复]"
         print(f"准备回复: {reply2}")
         
         confirm = input("\n确认回复吗？(y/N): ")

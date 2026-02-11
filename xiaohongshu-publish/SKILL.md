@@ -59,8 +59,11 @@ changelog: "v2.0.0 - 拆分：发布和评论回复分成独立skill"
 ## Cookie加载代码
 ```python
 import json
+import os
 
-with open('/Users/jli/.openclaw/secrets/xiaohongshu.json', 'r') as f:
+# 使用通用路径，适配所有用户
+cookie_path = os.path.expanduser('~/.openclaw/secrets/xiaohongshu.json')
+with open(cookie_path, 'r') as f:
     raw = json.load(f)
 
 # Cookie文件是dict格式，需要转换为playwright格式
@@ -77,7 +80,9 @@ def publish_xhs_long_text(title, content, cookies):
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)
         context = browser.new_context()
-        context.add_init_script(path='/Users/jli/openclaw/stealth.min.js')
+        # stealth.min.js路径需要用户自行配置
+        stealth_path = os.path.expanduser('~/stealth.min.js')  # 或其他路径
+        context.add_init_script(path=stealth_path)
         context.add_cookies(cookies)
         
         page = context.new_page()
@@ -118,6 +123,6 @@ def publish_xhs_long_text(title, content, cookies):
 
 ## 相关文件
 - Cookie配置：`~/.openclaw/secrets/xiaohongshu.json`
-- stealth.min.js：`/Users/jli/openclaw/stealth.min.js`
-- 发布脚本：`/Users/jli/openclaw/skills/xiaohongshu-publish/publish_long_text.py`
-- 评论回复skill：`/Users/jli/openclaw/skills/xiaohongshu-reply/SKILL.md`
+- stealth.min.js：`~/stealth.min.js` (用户自行配置路径)
+- 发布脚本：`./publish_long_text.py`
+- 评论回复skill：`../xiaohongshu-reply/SKILL.md`

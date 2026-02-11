@@ -1,265 +1,115 @@
-# 小红书自动化技能包 | XiaoHongShu Automation Skills
+# 小红书自动化工具集
 
-🤖 **专业的小红书内容发布与评论管理自动化解决方案**
+这是一个用于小红书内容发布和评论管理的自动化工具集合。
 
-## 📦 包含内容
-
-### 🚀 xiaohongshu-publish v2.0.0
-**自动化长文发布工具**
-- ✅ 通过创作者中心自动发布长文笔记
-- ✅ 智能封面自动生成
-- ✅ 草稿管理与预览
-- ✅ 反检测机制
-- ⚠️ 标题自动限制在20字以内
-
-### 💬 xiaohongshu-reply v1.0.0
-**智能评论回复工具**
-- ✅ 自动读取通知页面评论
-- ✅ 智能分类回复策略（问题/夸奖/建议/技术）
-- ✅ 防恶意prompt注入保护
-- ✅ 内容审核机制
-- ✅ 关键词验证防误回复
-- ✅ 基于OpenClaw的soul.md进行角色人设管理
-
----
-
-## 🚀 推荐使用方式（OpenClaw）
-
-### 🎯 最佳实践：与OpenClaw聊天使用
-
-**第一步：安装技能**
-直接和OpenClaw聊天：
-```
-"帮我安装小红书自动化技能包"
-```
-
-**第二步：配置环境**
-- 🔑 OpenClaw会引导你配置小红书Cookie认证
-- 📝 基于你的soul.md角色人设自动适配
-- 🛠️ 自动处理所有依赖安装
-
-**第三步：开始使用**
-
-**🚀 直接发帖：**
-```
-"帮我发布一篇小红书笔记：
-标题：AI工具使用心得
-内容：今天分享几个实用的AI工具...
-标签：AI、工具、效率"
-```
-
-**⏰ 定时发帖（推荐）：**
-```
-"帮我设置小红书定时发布：
-- 每天上午9点自动发布内容
-- 每4小时检查并回复评论
-- 如果Cookie过期请提醒我"
-```
-
-**💬 自动回复：**
-```
-"帮我处理小红书评论回复"
-"实时监控我的小红书评论，有新评论自动回复"
-```
-
-**优势：**
-- ✅ OpenClaw自动依赖管理
-- ✅ 智能错误诊断和重试
-- ✅ Cookie过期自动提醒
-- ✅ 基于soul.md的个性化回复
-- ✅ 支持定时任务和自动化运行
-- ✅ 内置反检测和安全机制
-
----
-
-## 🛠️ 技术要求
-
-### 系统依赖（OpenClaw自动处理）
-- Python 3.8+
-- playwright
-- asyncio
-- stealth.min.js（反检测脚本）
-
-### 必需配置文件
-- **xiaohongshu.json** - Cookie认证文件
-- **soul.md** - 角色人设定义（OpenClaw自带）
-
----
-
-## 📁 技能结构
+## 项目结构
 
 ```
-xiaohongshu-skills/
-├── xiaohongshu-publish/           # 发布技能（精简版）
-│   ├── SKILL.md                   # 主配置文档
-│   ├── publish_long_text.py       # 核心发布脚本
-│   ├── reply_fixed.py             # 稳定回复脚本
-│   ├── check_comments.py          # 评论检查工具
-│   ├── fetch_latest.py            # 获取最新评论
-│   └── generate_replies.py        # AI回复生成器
-├── xiaohongshu-reply/             # 回复技能
-│   └── SKILL.md                   # 回复配置文档
-└── README.md                      # 本文档
+├── xiaohongshu-publish/     # 发布相关工具
+│   ├── SKILL.md            # 发布技能说明文档
+│   └── publish_long_text.py # 长文发布脚本
+│
+└── xiaohongshu-reply/       # 评论回复工具
+    ├── SKILL.md            # 回复技能说明文档
+    ├── check_comments.py   # 主要的评论检查和回复工具
+    ├── reply_fixed.py      # 修复版回复工具（备用）
+    ├── generate_replies.py # 回复模板生成器
+    └── fetch_latest.py     # 最新评论获取工具
 ```
 
-### 🔧 文件功能详解
+## 功能说明
 
-**📝 xiaohongshu-publish/ 核心文件：**
-- `SKILL.md` - OpenClaw技能配置和使用说明
-- `publish_long_text.py` - 自动发布长文笔记的主脚本
-- `reply_fixed.py` - 稳定的评论回复脚本（包含错误处理）
-- `check_comments.py` - 读取和分析评论内容的工具
-- `fetch_latest.py` - 获取最新评论数据
-- `generate_replies.py` - AI驱动的智能回复生成
+### 📝 发布工具 (xiaohongshu-publish)
 
-**💬 xiaohongshu-reply/ 技能文件：**
-- `SKILL.md` - 基于OpenClaw soul.md的智能回复配置
+- **publish_long_text.py**: 自动发布小红书长文内容
+  - 支持标题和正文内容输入
+  - 自动排版和发布
+  - 命令行参数支持
 
----
+### 💬 评论管理工具 (xiaohongshu-reply)
 
-## 📖 使用指南
+- **check_comments.py**: 主要的评论管理工具
+  - 自动获取最新评论
+  - 批量回复指定评论
+  - 支持自定义回复模板
 
-### 🔑 Cookie配置
+- **reply_fixed.py**: 备用的评论回复工具
+  - 提供额外的回复功能
+  - 包含错误处理和调试功能
 
-创建 `~/.openclaw/secrets/xiaohongshu.json`：
-```json
-{
-  "web_session": "your_web_session_here",
-  "access-token-creator": "your_creator_token_here",
-  "galaxy_creator_session_id": "your_session_id_here"
-}
+- **generate_replies.py**: 回复模板生成器
+  - 生成标准化的回复模板
+  - 便于批量回复管理
+
+- **fetch_latest.py**: 评论获取工具
+  - 专门用于获取最新评论
+  - 保存评论数据和截图
+
+## 环境配置
+
+### 必需文件
+
+1. **Cookie配置**: `~/.openclaw/secrets/xiaohongshu.json`
+   ```json
+   {
+     "a1": "your_a1_cookie",
+     "web_session": "your_web_session",
+     "webId": "your_webId",
+     "websectiga": "your_websectiga"
+   }
+   ```
+
+2. **Stealth脚本**: `~/stealth.min.js`
+   - 用于绕过反爬虫检测
+   - 需要用户自行获取和配置
+
+### 依赖安装
+
+```bash
+pip install playwright
+playwright install chromium
 ```
 
-**获取Cookie步骤：**
-1. 登录小红书网页版
-2. 打开开发者工具 (F12)
-3. 进入创作者中心页面
-4. 复制相关Cookie值
+## 使用方法
 
-**🚨 Cookie过期处理：**
-- OpenClaw会自动检测Cookie状态
-- 过期时会提示你重新配置
-- 支持自动重试机制
+### 发布长文
 
-### 🚀 自动化发布
+```bash
+# 基本使用
+python xiaohongshu-publish/publish_long_text.py --title "文章标题" --content "文章内容"
 
-**直接发布：**
-```
-"帮我发布小红书笔记：
-标题：AI工具使用心得
-内容：详细介绍几个好用的AI工具...
-标签：AI、工具、效率"
+# 显示浏览器窗口（调试用）
+python xiaohongshu-publish/publish_long_text.py --title "标题" --content "内容" --visible
 ```
 
-**定时发布（推荐）：**
-```
-"帮我设置小红书自动发布计划：
-- 每天上午9点发布科技分享内容
-- 每周日上午10点发布周总结
-- 请根据我的soul.md人设来生成内容"
-```
+### 管理评论
 
-### 💬 自动评论管理
+```bash
+# 检查并回复评论
+python xiaohongshu-reply/check_comments.py
 
-**实时监控：**
-```
-"帮我启动小红书评论监控，后台运行"
-"检查并回复我所有未读的小红书评论"
+# 获取最新评论
+python xiaohongshu-reply/fetch_latest.py
+
+# 生成回复模板
+python xiaohongshu-reply/generate_replies.py
 ```
 
-**定时回复：**
-```
-"帮我设置小红书评论自动回复：
-- 每2小时检查一次新评论
-- 根据我的人设自动生成回复
-- 回复前请给我预览确认"
-```
+## 注意事项
 
----
+1. **Cookie安全**: 请妥善保管cookie文件，不要泄露给他人
+2. **使用频率**: 建议合理控制使用频率，避免被平台检测
+3. **内容合规**: 确保发布和回复的内容符合平台规范
+4. **路径配置**: 首次使用前请确保所有必需文件路径正确配置
 
-## ⚠️ 重要注意事项
+## 技术特性
 
-### 安全提醒
-- 🔒 **Cookie保护**：OpenClaw会安全存储Cookie，定期检查有效性
-- 🛡️ **内容审核**：所有回复内容基于soul.md生成，支持预览确认
-- 🚫 **频率控制**：内置智能频率控制，避免触发平台限制
-- 🔍 **日志监控**：OpenClaw提供详细日志，便于监控和调试
+- 基于 Playwright 的自动化操作
+- 支持无头模式和可视化调试
+- 通用路径配置，适配不同用户环境
+- 模板化回复，便于批量管理
+- 完善的错误处理和日志记录
 
-### 使用限制
-- 📝 发布标题不能超过20字（会被自动截断）
-- ⏱️ 发布后需要等待平台审核
-- 🔄 Cookie会定期过期，OpenClaw会及时提醒更新
-- 📱 仅支持长文发布，不支持图片/视频笔记
+## 许可证
 
-### 故障排除（OpenClaw智能处理）
-- **Cookie过期** → 自动提醒并暂停操作，等待重新配置
-- **验证码触发** → 智能降低操作频率，避免被限制
-- **网络异常** → 自动重试机制，支持断点续传
-- **发布失败** → 详细错误日志，智能诊断问题原因
-
----
-
-## 🎯 核心特色
-
-### 🧠 智能化
-- 基于OpenClaw soul.md的个性化AI回复
-- 智能评论分类和回复策略
-- 自动内容生成和优化
-
-### 🛡️ 安全性
-- 反检测机制（stealth.min.js）
-- 智能频率控制
-- Cookie安全管理
-- 恶意内容过滤
-
-### 🔧 自动化
-- 支持cron定时任务
-- 实时监控和后台运行
-- 自动错误恢复
-- Cookie状态自动检测
-
-### 🚀 易用性
-- OpenClaw一键安装和使用
-- 简单命令行接口
-- 详细的使用文档和示例
-
----
-
-## 🆕 版本更新
-
-### v2.0.0 (2026-02-10)
-- ✅ 重构为OpenClaw技能包架构
-- ✅ 增强反检测机制和安全性
-- ✅ 添加cron定时任务支持
-- ✅ Cookie自动过期检测和提醒
-- ✅ 智能频率控制和错误恢复
-- ✅ 基于soul.md的个性化回复系统
-
-### v1.0.0 (2026-02-04)
-- 🎉 首次发布
-- ✅ 基础发布和回复功能
-- ✅ Cookie认证机制
-
----
-
-## 📄 许可证
-
-本技能包仅供学习和个人使用。请遵守小红书平台的使用条款和相关法律法规。
-
----
-
-## 🤝 技术支持
-
-如需技术支持或定制开发，请联系：
-- 🦀 **小红书**: 练习赛博螃蟹 @clawdbob
-- 🐙 **GitHub**: [@clawbob](https://github.com/clawbob)
-
----
-
-**⚡ 立即通过OpenClaw开始您的小红书自动化之旅！**
-
-**🔥 推荐工作流：**
-1. 和OpenClaw聊天："帮我安装小红书自动化技能包"
-2. 按提示配置Cookie和完善soul.md人设
-3. 说："帮我设置小红书自动发帖和回复计划"
-4. 享受全自动的小红书内容管理！
+本项目仅供学习和研究使用，请遵守相关平台的使用条款。
