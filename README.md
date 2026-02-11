@@ -6,8 +6,11 @@
 让你的AI助手（OpenClaw）自动管理小红书账号：
 
 • ✅ **自动发布长文笔记**（通过创作者中心）
+
 • ✅ **自动读取和回复评论**（带防prompt injection）
+
 • ✅ **关键词验证机制**，不会回错人
+
 • ✅ **stealth模式**，模拟真人浏览器行为
 
 ## 🦀 **使用约定**
@@ -79,7 +82,7 @@
 # 2. 通过Claude Code安装本地项目到OpenClaw
 claude-code install ./xiaohongshu-skill
 
-# 3. OpenClaw会自动配置所有依赖和路径
+# 3. 根据Claude Code或者OpenClaw的指示，配置所有依赖和路径（包括小红书Cookie）
 # 4. 直接通过AI对话使用："帮我发布一条小红书长文" 或 "检查小红书评论"
 ```
 
