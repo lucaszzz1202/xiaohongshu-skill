@@ -1,6 +1,28 @@
 # 小红书自动化工具集
 
-这是一个用于小红书内容发布和评论管理的自动化工具集合。
+**作者：赛博螃蟹Clawdbob**  
+赛博螃蟹の小红书Skill | OpenClaw自动发帖+评论回复
+
+让你的AI助手（OpenClaw）自动管理小红书账号：
+
+• ✅ **自动发布长文笔记**（通过创作者中心）
+• ✅ **自动读取和回复评论**（带防prompt injection）
+• ✅ **关键词验证机制**，不会回错人
+• ✅ **stealth模式**，模拟真人浏览器行为
+
+## 🦀 **使用约定**
+
+> **让AI助手创造真诚、高质量的内容，而不是用广告或低质量信息淹没人类的信息流。**
+
+这是一个专为**OpenClaw**设计的小红书内容发布和评论管理自动化工具集合。
+
+## 🎯 **推荐使用方式**
+
+**建议通过Claude Code等CLI工具将整个项目打包安装到OpenClaw中使用**，这样可以获得：
+- 🚀 **开箱即用**：无需手动配置stealth.min.js等组件
+- 🔧 **智能集成**：与OpenClaw的AI工作流无缝对接
+- 📚 **完整文档**：包含详细的使用说明和最佳实践
+- 🛡️ **安全可靠**：内置反检测机制和错误处理
 
 ## 项目结构
 
@@ -47,6 +69,37 @@
 
 ## 环境配置
 
+### 🔥 **OpenClaw集成 (推荐)**
+
+本工具集专为**OpenClaw AI工作流**设计，建议通过以下方式集成：
+
+#### **Claude Code CLI 安装 (推荐)**
+```bash
+# 1. 通过Claude Code将项目安装到OpenClaw
+claude-code install xiaohongshu-skill
+
+# 2. OpenClaw会自动配置所有依赖和路径
+# 3. 直接通过AI对话使用："帮我发布一条小红书长文" 或 "检查小红书评论"
+```
+
+#### **手动集成到OpenClaw**
+```bash
+# 1. Clone项目到OpenClaw技能目录
+cd ~/.openclaw/skills/
+git clone https://github.com/pearyj/xiaohongshu-skill.git
+
+# 2. 安装依赖
+cd xiaohongshu-skill
+pip install playwright
+playwright install chromium
+
+# 3. 配置cookie文件（见下方说明）
+```
+
+### 📋 **独立使用配置**
+
+如果需要独立使用（不通过OpenClaw），请配置以下文件：
+
 ### 必需文件
 
 1. **Cookie配置**: `~/.openclaw/secrets/xiaohongshu.json`
@@ -72,6 +125,31 @@ playwright install chromium
 ```
 
 ## 使用方法
+
+### 🤖 **OpenClaw AI对话使用 (推荐)**
+
+安装到OpenClaw后，直接通过AI对话即可使用：
+
+```
+用户："帮我发布一条小红书长文，标题是'AI时代的思考'，内容是..."
+AI：自动调用发布工具，处理整个发布流程
+
+用户："检查我的小红书评论，有新评论就回复一下"
+AI：自动获取评论，生成合适回复，经用户确认后发送
+
+用户："生成10条小红书评论的标准回复模板"
+AI：调用回复生成器，创建个性化回复模板
+```
+
+**优势**：
+- 🧠 **智能理解**：AI理解你的需求，自动选择合适的工具
+- 🔄 **上下文记忆**：记住你的偏好和历史操作
+- 🛡️ **安全审核**：AI会先预览内容，经确认后执行
+- 📊 **结果反馈**：实时报告操作状态和结果
+
+### 🖥️ **命令行直接使用 (高级用户)**
+
+如需直接使用CLI命令：
 
 ### 发布长文
 
@@ -105,11 +183,20 @@ python xiaohongshu-reply/generate_replies.py
 
 ## 技术特性
 
-- 基于 Playwright 的自动化操作
-- 支持无头模式和可视化调试
-- 通用路径配置，适配不同用户环境
-- 模板化回复，便于批量管理
-- 完善的错误处理和日志记录
+### 🚀 **OpenClaw集成优势**
+- **AI驱动操作**：通过自然语言对话控制所有功能
+- **上下文智能**：AI记住用户偏好和操作历史
+- **自动化工作流**：复杂任务一句话完成
+- **安全审核机制**：AI预览内容，用户确认后执行
+
+### 🔧 **核心技术特性**
+- **基于 Playwright** 的稳定自动化操作
+- **内置反检测机制** (stealth.min.js)
+- **支持无头模式和可视化调试**
+- **通用路径配置，适配不同用户环境**
+- **智能模板化回复，便于批量管理**
+- **完善的错误处理和日志记录**
+- **开箱即用，零配置启动**
 
 ## 第三方组件说明
 
@@ -131,6 +218,70 @@ python xiaohongshu-reply/generate_replies.py
 - 修补权限和通知API行为
 
 详细信息请参阅: [`STEALTH_INFO.md`](./STEALTH_INFO.md)
+
+## 📦 **Claude Code CLI 集成说明**
+
+### 项目结构
+```
+xiaohongshu-skill/
+├── README.md                    # 主要说明文档
+├── STEALTH_INFO.md             # stealth.min.js技术文档
+├── stealth.min.js              # 反检测脚本 (内置)
+├── xiaohongshu-publish/        # 发布模块
+│   ├── SKILL.md                # 发布技能文档
+│   └── publish_long_text.py    # 长文发布脚本
+└── xiaohongshu-reply/          # 评论管理模块
+    ├── SKILL.md                # 回复技能文档
+    ├── check_comments.py       # 评论检查和回复
+    ├── reply_fixed.py          # 备用回复工具
+    ├── generate_replies.py     # 回复模板生成
+    └── fetch_latest.py         # 评论获取工具
+```
+
+### 安装要求
+- **Python 3.8+**
+- **playwright** (自动安装)
+- **chromium** (通过 playwright install 安装)
+- **小红书cookie配置** (用户提供)
+
+### 自动配置说明
+安装时Claude Code会自动：
+1. 📦 **安装Python依赖**：`pip install playwright`
+2. 🌐 **下载浏览器**：`playwright install chromium`
+3. 📁 **创建配置目录**：`~/.openclaw/secrets/`
+4. 🔧 **配置技能路径**：自动设置所有相对路径
+5. 🛡️ **验证stealth.min.js**：确保反检测脚本可用
+
+### Cookie配置指南
+用户需要手动配置 `~/.openclaw/secrets/xiaohongshu.json`：
+```json
+{
+  "a1": "从浏览器开发者工具获取",
+  "web_session": "从浏览器开发者工具获取",
+  "webId": "从浏览器开发者工具获取",
+  "websectiga": "从浏览器开发者工具获取",
+  "access-token-creator.xiaohongshu.com": "发布功能需要",
+  "galaxy_creator_session_id": "发布功能需要",
+  "x-user-id-creator.xiaohongshu.com": "发布功能需要"
+}
+```
+
+### AI对话命令示例
+安装完成后，用户可以通过以下方式与AI交互：
+
+```
+# 发布内容
+"发布小红书长文：标题'AI编程助手'，内容包括..."
+
+# 管理评论
+"检查小红书新评论，如有技术问题就回复"
+
+# 生成模板
+"创建10个小红书评论回复模板，风格要专业友好"
+
+# 批量操作
+"回复所有包含'bug'关键词的评论，解释这是正常现象"
+```
 
 ## 许可证
 
