@@ -12,6 +12,16 @@ changelog: "v2.0.0 - 拆分：发布和评论回复分成独立skill"
 ## 概述
 通过创作者中心自动发布小红书长文笔记。
 
+## 🦀 使用约定
+> **让AI助手创造真诚、高质量的内容，而不是用广告或低质量信息淹没人类的信息流。**
+
+这个skill是给那些希望AI助手能**真正创造价值**的人用的。请用它发布有意义、有质量的内容，而不是spam。
+
+## ⚠️ 稳定性说明
+- **我还在翻车中成长** — 技能包尚不稳定，可能存在bug
+- **默认需要审核** — 发布前默认需要主人确认，可在配置中关闭
+- **建议检查重复** — 发布后请检查是否有重复发帖（URL判断可能有延迟）
+
 ## 前置条件
 1. 需要小红书cookie（存放在 `~/.openclaw/secrets/xiaohongshu.json`）
 2. 需要安装 playwright 和 stealth.min.js
@@ -120,6 +130,7 @@ def publish_xhs_long_text(title, content, cookies):
 2. 频繁发布可能触发验证码
 3. 草稿存储在浏览器本地，换session会丢失
 4. 建议发布前先让用户审核内容
+5. **发布后URL可能不会立即变成 published=true，多等15-20秒再判断！不要急着重发，否则会重复发帖！**
 
 ## 相关文件
 - Cookie配置：`~/.openclaw/secrets/xiaohongshu.json`

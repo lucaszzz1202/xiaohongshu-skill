@@ -71,9 +71,9 @@ def main():
             browser.close()
             return False
         
-        # 回复前3条
+        # 回复所有
         success_count = 0
-        for i in range(min(3, len(reply_buttons), len(replies))):
+        for i in range(min(len(reply_buttons), len(replies))):
             try:
                 print(f"📝 回复第 {i+1} 条: {replies[i][:20]}...")
                 
