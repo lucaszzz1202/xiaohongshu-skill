@@ -75,21 +75,21 @@
 
 #### **Claude Code CLI 安装 (推荐)**
 ```bash
-# 1. 通过Claude Code将项目安装到OpenClaw
-claude-code install xiaohongshu-skill
+# 1. 将获得的项目文件包解压到本地目录
+# 2. 通过Claude Code安装本地项目到OpenClaw
+claude-code install ./xiaohongshu-skill
 
-# 2. OpenClaw会自动配置所有依赖和路径
-# 3. 直接通过AI对话使用："帮我发布一条小红书长文" 或 "检查小红书评论"
+# 3. OpenClaw会自动配置所有依赖和路径
+# 4. 直接通过AI对话使用："帮我发布一条小红书长文" 或 "检查小红书评论"
 ```
 
 #### **手动集成到OpenClaw**
 ```bash
-# 1. Clone项目到OpenClaw技能目录
-cd ~/.openclaw/skills/
-git clone https://github.com/pearyj/xiaohongshu-skill.git
+# 1. 将项目文件包复制到OpenClaw技能目录
+cp -r ./xiaohongshu-skill ~/.openclaw/skills/
 
 # 2. 安装依赖
-cd xiaohongshu-skill
+cd ~/.openclaw/skills/xiaohongshu-skill
 pip install playwright
 playwright install chromium
 
@@ -128,8 +128,9 @@ playwright install chromium
 
 ### 🤖 **OpenClaw AI对话使用 (推荐)**
 
-安装到OpenClaw后，直接通过AI对话即可使用：
+安装到OpenClaw后，支持多种使用方式：
 
+#### **💬 即时AI对话**
 ```
 用户："帮我发布一条小红书长文，标题是'AI时代的思考'，内容是..."
 AI：自动调用发布工具，处理整个发布流程
@@ -141,11 +142,12 @@ AI：自动获取评论，生成合适回复，经用户确认后发送
 AI：调用回复生成器，创建个性化回复模板
 ```
 
-**优势**：
+**🚀 AI工作流优势**：
 - 🧠 **智能理解**：AI理解你的需求，自动选择合适的工具
 - 🔄 **上下文记忆**：记住你的偏好和历史操作
 - 🛡️ **安全审核**：AI会先预览内容，经确认后执行
 - 📊 **结果反馈**：实时报告操作状态和结果
+- ⚡ **扩展能力**：可以此为基础，让OpenClaw助手安排cron job等自动化任务
 
 ### 🖥️ **命令行直接使用 (高级用户)**
 
@@ -188,6 +190,7 @@ python xiaohongshu-reply/generate_replies.py
 - **上下文智能**：AI记住用户偏好和操作历史
 - **自动化工作流**：复杂任务一句话完成
 - **安全审核机制**：AI预览内容，用户确认后执行
+- **扩展性强**：可基于此技能让OpenClaw安排cron job等自动化任务
 
 ### 🔧 **核心技术特性**
 - **基于 Playwright** 的稳定自动化操作
@@ -239,10 +242,16 @@ xiaohongshu-skill/
 ```
 
 ### 安装要求
+- **项目文件包** (通过网盘获取)
 - **Python 3.8+**
-- **playwright** (自动安装)
+- **playwright** (Claude Code自动安装)
 - **chromium** (通过 playwright install 安装)
 - **小红书cookie配置** (用户提供)
+
+### 获取和安装流程
+1. 📦 **获取文件包**：从提供的网盘链接下载项目文件
+2. 📁 **解压到本地**：解压到任意本地目录
+3. 🔧 **Claude Code安装**：`claude-code install ./xiaohongshu-skill`
 
 ### 自动配置说明
 安装时Claude Code会自动：
@@ -282,6 +291,8 @@ xiaohongshu-skill/
 # 批量操作
 "回复所有包含'bug'关键词的评论，解释这是正常现象"
 ```
+
+**💡 扩展提示**：你还可以基于这些基础功能，让OpenClaw助手帮你安排cron job定时任务，实现自动化发布和回复。
 
 ## 许可证
 
