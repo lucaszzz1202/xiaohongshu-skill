@@ -11,7 +11,7 @@ from playwright.sync_api import sync_playwright
 
 # 使用通用路径，适配所有用户
 COOKIE_PATH = os.path.expanduser("~/.openclaw/secrets/xiaohongshu.json")
-STEALTH_JS_PATH = os.path.expanduser("~/stealth.min.js")  # 用户需自行配置此文件路径
+STEALTH_JS_PATH = os.path.join(os.path.dirname(__file__), '..', 'stealth.min.js')  # 用户需自行配置此文件路径
 
 def load_cookies():
     """加载cookie配置"""

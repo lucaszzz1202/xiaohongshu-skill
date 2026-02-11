@@ -36,8 +36,8 @@ def check_recent_comments():
         browser = playwright.chromium.launch(headless=True)
         context = browser.new_context()
         
-        # 添加stealth脚本（用户需自行配置路径）
-        stealth_path = os.path.expanduser("~/stealth.min.js")
+        # 添加stealth脚本（项目内置）
+        stealth_path = os.path.join(os.path.dirname(__file__), '..', 'stealth.min.js')
         if os.path.exists(stealth_path):
             context.add_init_script(path=stealth_path)
         
@@ -142,8 +142,8 @@ def reply_to_comments(comment_indices, replies):
         browser = playwright.chromium.launch(headless=False)  # 调试用，可以看到界面
         context = browser.new_context()
         
-        # 添加stealth脚本（用户需自行配置路径）
-        stealth_path = os.path.expanduser("~/stealth.min.js")
+        # 添加stealth脚本（项目内置）
+        stealth_path = os.path.join(os.path.dirname(__file__), '..', 'stealth.min.js')
         if os.path.exists(stealth_path):
             context.add_init_script(path=stealth_path)
         

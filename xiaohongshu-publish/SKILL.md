@@ -80,8 +80,8 @@ def publish_xhs_long_text(title, content, cookies):
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)
         context = browser.new_context()
-        # stealth.min.js路径需要用户自行配置
-        stealth_path = os.path.expanduser('~/stealth.min.js')  # 或其他路径
+        # stealth.min.js已内置于项目中
+        stealth_path = os.path.join(os.path.dirname(__file__), '..', 'stealth.min.js')
         context.add_init_script(path=stealth_path)
         context.add_cookies(cookies)
         
@@ -123,6 +123,6 @@ def publish_xhs_long_text(title, content, cookies):
 
 ## 相关文件
 - Cookie配置：`~/.openclaw/secrets/xiaohongshu.json`
-- stealth.min.js：`~/stealth.min.js` (用户自行配置路径)
+- stealth.min.js：`stealth.min.js` ✅ **已内置于项目根目录**
 - 发布脚本：`./publish_long_text.py`
 - 评论回复skill：`../xiaohongshu-reply/SKILL.md`

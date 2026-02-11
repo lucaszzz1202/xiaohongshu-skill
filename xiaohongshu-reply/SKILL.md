@@ -68,7 +68,7 @@ cookies = [{'name': k, 'value': str(v), 'domain': '.xiaohongshu.com', 'path': '/
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=True)
     context = browser.new_context()
-    stealth_path = os.path.expanduser('~/stealth.min.js')  # 用户需自行配置路径
+    stealth_path = os.path.join(os.path.dirname(__file__), '..', 'stealth.min.js')  # 项目内置
     context.add_init_script(path=stealth_path)
     context.add_cookies(cookies)
     page = context.new_page()
@@ -148,5 +148,5 @@ for keyword, reply_text in replies_to_send:
 
 ## 相关文件
 - Cookie配置：`~/.openclaw/secrets/xiaohongshu.json`
-- stealth.min.js：`~/stealth.min.js` (用户自行配置路径)
+- stealth.min.js：`stealth.min.js` ✅ **已内置于项目根目录**
 - 发布skill：`../xiaohongshu-publish/SKILL.md`

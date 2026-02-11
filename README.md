@@ -59,9 +59,10 @@
    }
    ```
 
-2. **Stealth脚本**: `~/stealth.min.js`
+2. **Stealth脚本**: `stealth.min.js` ✅ **已内置**
    - 用于绕过反爬虫检测
-   - 需要用户自行获取和配置
+   - 来源: [puppeteer-extra](https://github.com/berstend/puppeteer-extra) (MIT License)
+   - 项目中已包含，无需额外配置
 
 ### 依赖安装
 
@@ -110,6 +111,30 @@ python xiaohongshu-reply/generate_replies.py
 - 模板化回复，便于批量管理
 - 完善的错误处理和日志记录
 
+## 第三方组件说明
+
+### stealth.min.js
+
+项目中包含的 `stealth.min.js` 文件用于浏览器反爬虫检测绕过：
+
+- **来源**: [berstend/puppeteer-extra](https://github.com/berstend/puppeteer-extra)
+- **生成工具**: `extract-stealth-evasions`
+- **许可证**: MIT License
+- **生成时间**: 2026-02-02
+- **大小**: ~200KB (压缩版)
+
+**功能说明**:
+- 隐藏 `navigator.webdriver` 标识
+- 模拟完整的Chrome浏览器环境
+- 补全插件和MIME类型信息
+- 伪装硬件和WebGL信息
+- 修补权限和通知API行为
+
+详细信息请参阅: [`STEALTH_INFO.md`](./STEALTH_INFO.md)
+
 ## 许可证
 
 本项目仅供学习和研究使用，请遵守相关平台的使用条款。
+
+**第三方组件许可**:
+- `stealth.min.js`: MIT License (来自 puppeteer-extra 项目)
