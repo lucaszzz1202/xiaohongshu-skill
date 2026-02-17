@@ -1,10 +1,10 @@
 ---
 name: xiaohongshu-publish
-version: 2.0.0
+version: 2.1.0
 description: 小红书长文发布自动化工具
 metadata: {"category":"social","platform":"xiaohongshu"}
-updated: 2026-02-10
-changelog: "v2.0.0 - 拆分：发布和评论回复分成独立skill"
+updated: 2026-02-16
+changelog: "v2.1.0 - 优化选择器定位、发布流程修正、轮询替代固定sleep、添加截图和发布日志"
 ---
 
 # 小红书长文发布 Skill
@@ -41,17 +41,35 @@ changelog: "v2.0.0 - 拆分：发布和评论回复分成独立skill"
    - 任何可识别身份的信息
 3. **内容需审核** - 发布前必须给主人过目确认
 
-## 发布流程
-1. 访问 `https://creator.xiaohongshu.com/publish/publish`
-2. 点击"写长文"标签
-3. 点击"新的创作"
-4. 填写标题（textarea[placeholder="输入标题"]）
-5. 填写内容（[contenteditable="true"]）
-6. 点击"一键排版"
-7. 点击"下一步"
-8. 等待图片生成（约5-8秒）
-9. 点击"发布"按钮
-10. 成功后URL会包含 `published=true`
+## 发布流程（v2.1）
+1. 访问 `https://creator.xiaohongshu.com/publish/publish`，等待 networkidle
+2. `wait_for_selector('text=写长文')` → 点击"写长文"
+3. `wait_for_selector('text=新的创作')` → 点击"新的创作"
+4. 等待 8 秒让编辑器加载
+5. `wait_for_selector('textarea[placeholder="输入标题"]')` 确认编辑器就绪
+6. `page.fill('textarea[placeholder="输入标题"]', title)` 填写标题
+7. `wait_for_selector('div.tiptap.ProseMirror')` → 点击编辑器 → `keyboard.type(content)` 填写正文
+8. `wait_for_selector('text=一键排版')` → 点击"一键排版"
+9. `wait_for_selector('button:has-text("下一步")')` → 点击"下一步"，等待 8 秒（图片生成）
+10. `wait_for_selector('button:has-text("发布")')` → `locator(...).last.click()` 点击发布（用 last 因为可能有多个按钮）
+11. **轮询检查**发布结果：每 5 秒检查 URL 是否包含 `published=true`，最多等 60 秒
+
+### 关键选择器
+| 元素 | 选择器 |
+|------|--------|
+| 标题输入框 | `textarea[placeholder="输入标题"]` |
+| 正文编辑器 | `div.tiptap.ProseMirror` |
+| 下一步按钮 | `button:has-text("下一步")` |
+| 发布按钮 | `button:has-text("发布")` (用 `.last`) |
+
+### 截图调试
+每个关键步骤会自动截图保存到 `/home/node/.openclaw/workspace/xhs_*.png`，方便排查问题。
+
+### 发布日志
+每次发布成功后自动追加记录到 `/home/node/.openclaw/workspace/xhs_publish_log.json`：
+```json
+{"title": "xxx", "published_at": "ISO时间", "url": "xxx"}
+```
 
 ## Cookie获取方法
 1. 在浏览器登录小红书网页版
@@ -71,58 +89,11 @@ changelog: "v2.0.0 - 拆分：发布和评论回复分成独立skill"
 import json
 import os
 
-# 使用通用路径，适配所有用户
 cookie_path = os.path.expanduser('~/.openclaw/secrets/xiaohongshu.json')
 with open(cookie_path, 'r') as f:
     raw = json.load(f)
 
-# Cookie文件是dict格式，需要转换为playwright格式
 cookies = [{'name': k, 'value': str(v), 'domain': '.xiaohongshu.com', 'path': '/'} for k, v in raw.items()]
-```
-
-## 代码示例
-
-```python
-from time import sleep
-from playwright.sync_api import sync_playwright
-
-def publish_xhs_long_text(title, content, cookies):
-    with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=True)
-        context = browser.new_context()
-        # stealth.min.js已内置于项目中
-        stealth_path = os.path.join(os.path.dirname(__file__), '..', 'stealth.min.js')
-        context.add_init_script(path=stealth_path)
-        context.add_cookies(cookies)
-        
-        page = context.new_page()
-        page.set_default_timeout(60000)
-        
-        page.goto('https://creator.xiaohongshu.com/publish/publish')
-        sleep(3)
-        
-        page.click('text=写长文')
-        sleep(2)
-        page.click('text=新的创作')
-        sleep(4)
-        
-        page.fill('textarea[placeholder="输入标题"]', title)
-        editor = page.locator('[contenteditable="true"]').first
-        editor.click()
-        editor.fill(content)
-        sleep(2)
-        
-        page.click('text=一键排版')
-        sleep(3)
-        page.click('button:has-text("下一步")')
-        sleep(8)
-        
-        page.locator('button:has-text("发布")').last.click()
-        sleep(5)
-        
-        success = 'published=true' in page.url
-        browser.close()
-        return success
 ```
 
 ## 注意事项
@@ -130,10 +101,13 @@ def publish_xhs_long_text(title, content, cookies):
 2. 频繁发布可能触发验证码
 3. 草稿存储在浏览器本地，换session会丢失
 4. 建议发布前先让用户审核内容
-5. **发布后URL可能不会立即变成 published=true，多等15-20秒再判断！不要急着重发，否则会重复发帖！**
+5. **发布结果用轮询检测（最多60秒），不要急着重发，否则会重复发帖！**
+6. stealth.min.js 路径用 `os.path.realpath` 解析软链接后再拼接
 
 ## 相关文件
 - Cookie配置：`~/.openclaw/secrets/xiaohongshu.json`
 - stealth.min.js：`stealth.min.js` ✅ **已内置于项目根目录**
 - 发布脚本：`./publish_long_text.py`
+- 截图输出：`/home/node/.openclaw/workspace/xhs_*.png`
+- 发布日志：`/home/node/.openclaw/workspace/xhs_publish_log.json`
 - 评论回复skill：`../xiaohongshu-reply/SKILL.md`
