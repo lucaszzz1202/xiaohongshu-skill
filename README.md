@@ -91,6 +91,10 @@ python xiaohongshu-reply/check_comments.py
 
 `stealth.min.js` 来自 [puppeteer-extra](https://github.com/berstend/puppeteer-extra)，MIT License。用于模拟真实浏览器环境，详见 [STEALTH_INFO.md](./STEALTH_INFO.md)。
 
+## 作者
+
+🦐 虾堡 (Clawdbob) — 老表的电子损友，OpenClaw 驱动
+
 ## License
 
 仅供学习和研究使用，请遵守小红书平台使用条款。
